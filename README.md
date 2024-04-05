@@ -18,7 +18,7 @@ NilsHUD is a mod that adds various improvements and customizations to the in-gam
   - Fade-out duration can be adjusted (default: 0.5 seconds)
   - Fade-out intensity can be adjusted (0 for no fade-out, 1 for full fade-out; default: 0.5)
 
-![](https://i.imgur.com/0fIPjQu.gif)
+![](https://i.imgur.com/cqnnFyV.gif)
 - **Damage Effects**
   - Critical hit animation and sound effect can be enabled or disabled (default: enabled)
   - Small hit animation can be enabled or disabled (default: enabled)
@@ -58,3 +58,5 @@ NilsHUD is released under the [GNU General Public License version 3.](https://op
 ## Credits
 
 NilsHUD was created by [Nilaier](https://github.com/NilaierMusic) and is based on the game Lethal Company developed by Zeekers.
+
+Inspired by an icon for [BetterFallDamage mod.](https://thunderstore.io/c/lethal-company/p/LokisHorseChild/BetterFallDamage/)
