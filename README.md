@@ -40,7 +40,7 @@ Please note that some features, like the experimental health bar, are marked as 
 ## Installation
 
 1. Install BepInEx following the instructions on the [BepInEx GitHub repository.](https://github.com/BepInEx/BepInEx)
-2. Download the latest version of NilsHUD from [Thunderstore,](https://thunderstore.io/c/lethal-company/p/Nilaier/NilsHUD/) NexusMods or [Releases.](https://github.com/your-repo/NilsHUD/releases)
+2. Download the latest version of NilsHUD from [Thunderstore,](https://thunderstore.io/c/lethal-company/p/Nilaier/NilsHUD/) [NexusMods](https://www.nexusmods.com/lethalcompany/mods/208/) or [Releases.](https://github.com/NilaierMusic/NilsHUD/releases)
 3. Extract the contents of the zip file into the `BepInEx/plugins` folder in your Lethal Company installation directory.
 
 ## Configuration
