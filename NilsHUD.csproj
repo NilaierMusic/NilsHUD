@@ -24,6 +24,12 @@
     <Reference Include="BepInEx">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Lethal Company\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="LethalConfig">
+      <HintPath>..\..\..\..\Desktop\DependencyLibraries\LethalConfig\LethalConfig.dll</HintPath>
+    </Reference>
+    <Reference Include="LethalEmotesAPI">
+      <HintPath>..\..\..\..\Desktop\DependencyLibraries\LethalEmotesApi\LethalEmotesAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Netcode.Runtime">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.Netcode.Runtime.dll</HintPath>
     </Reference>

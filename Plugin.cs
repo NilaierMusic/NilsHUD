@@ -30,6 +30,7 @@ namespace NilsHUD
             harmonyInstance.PatchAll(typeof(HUDManagerPatch));
             harmonyInstance.PatchAll(typeof(UnlockableSuitPatch));
             harmonyInstance.PatchAll(typeof(HealthBarPatch));
+            harmonyInstance.PatchAll(typeof(PlayerControllerBPatch)); // Add this line
 
             Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Harmony patches applied.");
 

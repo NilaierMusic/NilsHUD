@@ -8,9 +8,9 @@ namespace NilsHUD
 {
     public static class PlayerUtils
     {
-        private static PlayerControllerB localPlayerController;
+        private static PlayerControllerB? localPlayerController;
 
-        public static PlayerControllerB GetPlayerControllerB()
+        public static PlayerControllerB? GetPlayerControllerB()
         {
             if (localPlayerController == null)
             {
@@ -43,12 +43,6 @@ namespace NilsHUD
                 return true;
             }
 
-            if (PluginConfig.ConfigOverlayColorHex.Value == null || PluginConfig.ConfigEnableCriticalHitEffect.Value == null || PluginConfig.ConfigEnableSmallHitEffect.Value == null)
-            {
-                Debug.LogError("PluginConfig values are not properly initialized!");
-                return true;
-            }
-
             var image = hudManager.selfRedCanvasGroup.GetComponent<Image>();
             if (image == null)
             {
@@ -57,7 +51,13 @@ namespace NilsHUD
             }
 
             PlayerControllerB playerController = PlayerUtils.GetPlayerControllerB();
-            ConfigureHealthImage(image, health, playerController);
+
+            // Check if the player is dead
+            if (playerController != null && playerController.isPlayerDead)
+            {
+                // Player is dead, skip updating the fill amount
+                return false;
+            }
 
             if (!hudManager.gameObject.GetComponent<HealthIndicatorInitializer>())
             {
@@ -66,7 +66,16 @@ namespace NilsHUD
             }
 
             float previousFillAmount = image.fillAmount;
-            image.fillAmount = previousFillAmount;
+            float newFillAmount = (100f - health) / 100f;
+
+            // Check if the player's health has actually changed
+            if (Mathf.Approximately(previousFillAmount, newFillAmount) && !PlayerUtils.GetPlayerControllerB().isPlayerDead)
+            {
+                // Health hasn't changed and player is not dead, no need to update the UI or trigger animations
+                return false;
+            }
+
+            ConfigureHealthImage(image, health, playerController);
 
             StartHealthMonitoring(hudManager); // Start monitoring health changes
             StartSmoothFillTransition(hudManager, image, previousFillAmount);
@@ -277,7 +286,46 @@ namespace NilsHUD
 
     public class HealthIndicatorInitializer : MonoBehaviour
     {
-        // This script is used as a flag to indicate that the health overlay has been initialized
+        public float StartFillAmount { get; set; }
+        public float TargetFillAmount { get; set; }
+    }
+
+    public static class PlayerControllerBPatch
+    {
+        [HarmonyPatch(typeof(PlayerControllerB), "KillPlayer")]
+        [HarmonyPrefix]
+        public static void KillPlayerPrefix(PlayerControllerB __instance)
+        {
+            HUDManager hudManager = HUDManager.Instance;
+            if (hudManager?.selfRedCanvasGroup == null)
+            {
+                Debug.LogError("HUDManager instance or selfRedCanvasGroup is null!");
+                return;
+            }
+
+            var image = hudManager.selfRedCanvasGroup.GetComponent<Image>();
+            if (image == null)
+            {
+                Debug.LogError("Image component not found on selfRedCanvasGroup!");
+                return;
+            }
+
+            // Set the fill amount to 0 (bottom) when the player dies
+            image.fillAmount = 0f;
+
+            // Stop any ongoing coroutines related to fill transitions
+            hudManager.StopAllCoroutines();
+
+            // Set the start and target fill amounts to 0
+            HealthIndicatorInitializer initializer = hudManager.gameObject.GetComponent<HealthIndicatorInitializer>();
+            if (initializer != null)
+            {
+                initializer.StartFillAmount = 0f;
+                initializer.TargetFillAmount = 0f;
+            }
+
+            Debug.Log("Player died. Setting fill amount to 0 and resetting start/target fill amounts.");
+        }
     }
 
     public class HealthMonitorCoroutine : MonoBehaviour

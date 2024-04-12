@@ -18,7 +18,7 @@ NilsHUD is a mod that adds various improvements and customizations to the in-gam
   - Fade-out duration can be adjusted (default: 0.5 seconds)
   - Fade-out intensity can be adjusted (0 for no fade-out, 1 for full fade-out; default: 0.5)
 
-![](https://i.imgur.com/0fIPjQu.gif)
+![](https://i.imgur.com/cqnnFyV.gif)
 - **Damage Effects**
   - Critical hit animation and sound effect can be enabled or disabled (default: enabled)
   - Small hit animation can be enabled or disabled (default: enabled)
@@ -40,12 +40,16 @@ Please note that some features, like the experimental health bar, are marked as 
 ## Installation
 
 1. Install BepInEx following the instructions on the [BepInEx GitHub repository.](https://github.com/BepInEx/BepInEx)
-2. Download the latest version of NilsHUD from [Thunderstore,](https://thunderstore.io/c/lethal-company/p/Nilaier/NilsHUD/) NexusMods or [Releases.](https://github.com/your-repo/NilsHUD/releases)
+2. Download the latest version of NilsHUD from [Thunderstore,](https://thunderstore.io/c/lethal-company/p/Nilaier/NilsHUD/) [NexusMods](https://www.nexusmods.com/lethalcompany/mods/208/) or [Releases.](https://github.com/NilaierMusic/NilsHUD/releases)
 3. Extract the contents of the zip file into the `BepInEx/plugins` folder in your Lethal Company installation directory.
 
 ## Configuration
 
 NilsHUD comes with a configuration file `NilsHUD.cfg` located in the `BepInEx/config` folder. You can modify the settings in this file to customize the behavior of the mod according to your preferences.
+
+## Compatibility
+
+- [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/)
 
 ## Contributing
 
@@ -58,3 +62,5 @@ NilsHUD is released under the [GNU General Public License version 3.](https://op
 ## Credits
 
 NilsHUD was created by [Nilaier](https://github.com/NilaierMusic) and is based on the game Lethal Company developed by Zeekers.
+
+Inspired by an icon for [BetterFallDamage mod.](https://thunderstore.io/c/lethal-company/p/LokisHorseChild/BetterFallDamage/)
