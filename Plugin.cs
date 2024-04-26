@@ -9,38 +9,74 @@ using UnityEngine.SceneManagement;
 
 namespace NilsHUD
 {
-    /// <summary>
-    /// The main plugin class for NilsHUD.
-    /// </summary>
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin
     {
         private const string AsciiLogoResourceName = "NilsHUD.Resources.ascii_logo.txt";
         private static readonly Assembly ExecutingAssembly = Assembly.GetExecutingAssembly();
-        private static readonly string[] ExcludedScenes = { "InitScene", "InitSceneLaunchOptions", "MainMenu", "InitSceneLANMode" };
+        private static readonly string[] ExcludedScenes = { "InitScene", "InitSceneLaunchOptions", "InitSceneLANMode", "MainMenu", "ColdOpen1" };
 
-        private Harmony harmonyInstance;
+        private Harmony? harmonyInstance;
         private bool isPluginInitialized = false;
 
         private void Awake()
         {
-            DisplayAsciiLogo();
+            try
+            {
+                DisplayAsciiLogo();
 
-            harmonyInstance = new Harmony(PluginInfo.PLUGIN_GUID);
-            harmonyInstance.PatchAll(typeof(HUDManagerPatch));
-            harmonyInstance.PatchAll(typeof(UnlockableSuitPatch));
-            harmonyInstance.PatchAll(typeof(HealthBarPatch));
-            harmonyInstance.PatchAll(typeof(PlayerControllerBPatch)); // Add this line
+                // Bind the config
+                PluginConfig.BindConfig(Config);
 
-            Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Harmony patches applied.");
+                Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Config loaded.");
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
+                // Subscribe to the scene loaded event
+                SceneManager.sceneLoaded += OnSceneLoaded;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Error in Awake: {ex.Message}");
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Stack trace: {ex.StackTrace}");
+            }
         }
 
         private void DisplayAsciiLogo()
         {
-            string logoText = LoadAsciiLogoFromResource();
-            Debug.Log(string.IsNullOrEmpty(logoText) ? $"[{PluginInfo.PLUGIN_NAME}] ASCII logo not found or empty." : logoText);
+            try
+            {
+                string logoText = LoadAsciiLogoFromResource();
+                Debug.Log(string.IsNullOrEmpty(logoText) ? $"[{PluginInfo.PLUGIN_NAME}] ASCII logo not found or empty." : logoText);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Error displaying ASCII logo: {ex.Message}");
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Stack trace: {ex.StackTrace}");
+            }
+        }
+
+        private void InitializePlugin()
+        {
+            try
+            {
+                harmonyInstance = new Harmony(PluginInfo.PLUGIN_GUID);
+                harmonyInstance.PatchAll(typeof(HUDManagerPatch));
+                harmonyInstance.PatchAll(typeof(UnlockableSuitPatch));
+                harmonyInstance.PatchAll(typeof(HealthBarPatch));
+                harmonyInstance.PatchAll(typeof(PlayerControllerBPatch));
+
+                Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Harmony patches applied.");
+
+                // Precompute suit colors
+                UnlockableSuitPatch.PrecomputeSuitColors();
+
+                // Initialize the health overlay
+                HUDManagerPatch.InitializeHealthOverlay();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Error in InitializePlugin: {ex.Message}");
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Stack trace: {ex.StackTrace}");
+            }
         }
 
         private string LoadAsciiLogoFromResource()
@@ -61,6 +97,7 @@ namespace NilsHUD
             catch (IOException ex)
             {
                 Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Error loading ASCII logo: {ex.Message}");
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Stack trace: {ex.StackTrace}");
             }
 
             return string.Empty;
@@ -68,13 +105,21 @@ namespace NilsHUD
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Loaded scene: {scene.name}");
-
-            if (!isPluginInitialized && !ExcludedScenes.Contains(scene.name))
+            try
             {
-                PluginConfig.BindConfig(Config);
-                isPluginInitialized = true;
-                Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Plugin initialized in scene: {scene.name}");
+                Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Loaded scene: {scene.name}");
+
+                if (!isPluginInitialized && !ExcludedScenes.Contains(scene.name))
+                {
+                    InitializePlugin();
+                    isPluginInitialized = true;
+                    Debug.Log($"[{PluginInfo.PLUGIN_NAME}] Plugin initialized in scene: {scene.name}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Error in OnSceneLoaded: {ex.Message}");
+                Debug.LogError($"[{PluginInfo.PLUGIN_NAME}] Stack trace: {ex.StackTrace}");
             }
         }
     }

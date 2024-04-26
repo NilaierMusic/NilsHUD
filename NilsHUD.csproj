@@ -8,10 +8,12 @@
   <ItemGroup>
     <None Remove="liquid.shader" />
     <None Remove="Resources\ascii_logo.txt" />
+    <None Remove="Resources\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\ascii_logo.txt" />
+    <EmbeddedResource Include="Resources\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +46,9 @@
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.UI.dll</HintPath>

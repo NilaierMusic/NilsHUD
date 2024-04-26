@@ -11,6 +11,8 @@ NilsHUD is a mod that adds various improvements and customizations to the in-gam
   - Fill direction can be set to bottom-to-top or top-to-bottom (default: bottom-to-top)
   - Fill transition duration can be adjusted (default: 0.1 seconds)
   - Player's suit color can be used for the overlay (default: disabled)
+  - Suit overlay brightness can be adjusted (default: 1)
+  - Start fully filled option can be enabled or disabled (default: disabled)
 
 ![](https://i.imgur.com/CzAyGNH.gif)
 - **Fade-Out Effect**
@@ -20,9 +22,8 @@ NilsHUD is a mod that adds various improvements and customizations to the in-gam
 
 ![](https://i.imgur.com/cqnnFyV.gif)
 - **Damage Effects**
-  - Critical hit animation and sound effect can be enabled or disabled (default: enabled)
-  - Small hit animation can be enabled or disabled (default: enabled)
-
+  - Critical hit effect can be enabled or disabled (default: enabled)
+  - Small hit effect can be enabled or disabled (default: enabled)
 
 ![](https://i.imgur.com/aq49mbZ.gif)
 - **Experimental Health Bar**
