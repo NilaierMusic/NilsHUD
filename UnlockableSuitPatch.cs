@@ -14,7 +14,7 @@ public static class UnlockableSuitPatch
     [HarmonyPostfix]
     public static void SwitchSuitForPlayer_Postfix(PlayerControllerB player, int suitID)
     {
-        if (player != null)
+        if (player != null && PluginConfig.ConfigEnableSuitColorOverlay.Value)
         {
             UpdateHealthOverlayColor(player, suitID);
         }
@@ -29,12 +29,28 @@ public static class UnlockableSuitPatch
         {
             if (hudManager.selfRedCanvasGroup?.TryGetComponent(out Image healthImage) == true)
             {
-                if (startOfRound == null)
-                    startOfRound = StartOfRound.Instance;
+                // Only update the color if EnableSuitColorOverlay is true
+                if (PluginConfig.ConfigEnableSuitColorOverlay.Value)
+                {
+                    if (startOfRound == null)
+                        startOfRound = StartOfRound.Instance;
 
-                Material suitMaterial = startOfRound.unlockablesList.unlockables[suitID].suitMaterial;
-                Color averageColor = SuitColorCache.GetSuitColor(suitID, suitMaterial);
-                healthImage.color = averageColor;
+                    Material suitMaterial = startOfRound.unlockablesList.unlockables[suitID].suitMaterial;
+                    Color averageColor = SuitColorCache.GetSuitColor(suitID, suitMaterial);
+                    healthImage.color = averageColor;
+                }
+                else
+                {
+                    // If EnableSuitColorOverlay is false, set the color to the default overlay color
+                    if (ColorUtility.TryParseHtmlString("#" + PluginConfig.ConfigOverlayColorHex.Value, out Color overlayColor))
+                    {
+                        healthImage.color = overlayColor;
+                    }
+                    else
+                    {
+                        healthImage.color = Color.red;
+                    }
+                }
             }
         }
     }
