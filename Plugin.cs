@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -71,6 +71,9 @@ namespace NilsHUD
 
                 // Initialize the health overlay
                 HUDManagerPatch.InitializeHealthOverlay();
+
+                // Initialize EmoteHUDManager and apply necessary patches
+                EmoteHUDManager.Initialize();
             }
             catch (Exception ex)
             {

@@ -36,6 +36,12 @@ NilsHUD is a mod that adds various improvements and customizations to the in-gam
   - Health bar width and height can be adjusted (default: width=300, height=15)
   - Red health bar width and height can be adjusted (default: width=300, height=15)
 
+![](https://i.imgur.com/aq49mbZ.gif)
+- **Emote-Related HUD Updates**
+  - Synchronizes HUD with LethalEmotesAPI by transferring values like `healthBarImage.fillAmount`, `redHealthBarImage.fillAmount`, `player.health`, `player.isPlayerDead`, and `player.currentSuitID`.
+  - Detects overlay changes in LethalEmotesAPI and updates HUD accordingly.
+  - Uses Harmony patches to intercept methods in the `EmoteWheel` class of LethalEmotesAPI.
+
 Please note that some features, like the experimental health bar, are marked as experimental and may have bugs or issues.
 
 ## Installation
